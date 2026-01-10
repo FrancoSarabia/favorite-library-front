@@ -1,1 +1,61 @@
-<p>book-favorites-page works!</p>
+<div class="px-5">
+
+    <div>
+        <i class="bi bi-arrow-left fs-6 custom-icon-size"></i>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h5 class="fw-bold mb-2">Libros Favoritos de <span style="color: blue;">Franco Sarabia
+                            Mellado</span></h5>
+                    <p class="text-muted mb-0">
+                        Catalogo de libros disponibles en la biblioteca. Utiliza los filtros de búsqueda para encontrar
+                        libros por
+                        título o autor.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 mb-4">
+
+                <div class="col" *ngFor="let favorite of favorites  ">
+                    <div class="card h-100 border-0 shadow-sm hover-effect">
+                        <img [src]="favorite.coverUrl ? favorite.coverUrl : 'https://via.placeholder.com/150x200?text=Sin+Portada'"
+                            class="card-img-top" [alt]="favorite.title" style="height: 250px; object-fit: cover;">
+
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title fw-bold text-truncate" [title]="favorite.title">
+                                {{ favorite.title }}
+                            </h6>
+                            <p class="card-text small text-muted mb-1">
+                                <i class="bi bi-person"></i> {{ favorite.authors.join(', ') }}
+                            </p>
+                            <p class="card-text small text-muted mt-auto">
+                                <i class="bi bi-calendar-event"></i> {{ favorite.firstPublishYear }}
+                            </p>
+                        </div>
+
+                        <div class="card-footer bg-transparent border-0 pb-3">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye me-1"></i> Ver detalles
+                                </button>
+
+                                <button
+                                    class="btn btn-sm btn-danger d-flex align-items-center justify-content-center transition-all"
+                                    (click)="removeFavorite(favorite)">
+                                    <i class="bi bi-bookmark-x-fill me-1"></i>
+                                    Quitar favorito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

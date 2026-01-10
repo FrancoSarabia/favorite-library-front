@@ -1,0 +1,5 @@
+.custom-icon-size {
+    font-size: 2rem; /* Ajusta a tu gusto */
+    vertical-align: middle; /* Ayuda a alinear si está junto a texto */
+    cursor: pointer;
+}
