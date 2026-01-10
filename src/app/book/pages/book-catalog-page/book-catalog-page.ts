@@ -41,15 +41,14 @@ export class BookCatalogPage implements OnInit {
 
     // Cargar favoritos actuales para marcar los corazones desde el inicio
     const userData = localStorage.getItem(STORAGE_KEY);
-    if ( userData ) {
-      const userId = JSON.parse( userData ).id;
+    if (userData) {
+      const userId = JSON.parse(userData).id;
 
-      this.favoriteBookService.getFavoritesByUser( userId ).subscribe(favs => {
+      this.favoriteBookService.getFavoritesByUser(userId).subscribe((favs) => {
         this.favorites = favs;
         this.favoriteExternalIds = favs.map((f: any) => f.externalId);
       });
-    } else
-      this.router.navigate(['/auth/login']);
+    } else this.router.navigate(['/auth/login']);
   }
 
   searchBooks(page: number = 1) {
@@ -76,7 +75,7 @@ export class BookCatalogPage implements OnInit {
         next: (favorite) => {
           if (!this.favoriteExternalIds.includes(book.externalId)) {
             this.favoriteExternalIds.push(book.externalId);
-            this.favorites.push( favorite );
+            this.favorites.push(favorite);
           }
           Swal.fire({
             position: 'top-end',
@@ -87,8 +86,37 @@ export class BookCatalogPage implements OnInit {
           });
         },
       });
-    } else
-      this.router.navigate(['/auth/login']);
+    } else this.router.navigate(['/auth/login']);
+  }
+
+  removeFavorite(book: IBook) {
+    this.favoriteExternalIds = this.favoriteExternalIds.filter((id) => id !== book.externalId);
+
+    const favoriteToRemove = this.favorites.find((fav) => fav.externalId === book.externalId);
+
+    if (favoriteToRemove) {
+      const favoriteId = favoriteToRemove.id;
+
+      this.favoriteBookService.removeFavorite(favoriteId).subscribe({
+        next: (success) => {
+          if (success) {
+            this.favoriteExternalIds = this.favoriteExternalIds.filter(
+              (id) => id !== book.externalId
+            );
+            this.favorites = this.favorites.filter((fav) => fav.id !== favoriteToRemove.id);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'info',
+              title: 'Quitado de favoritos',
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          } else {
+            Swal.fire('Error', 'No se pudo eliminar el favorito del servidor', 'error');
+          }
+        },
+      });
+    }
   }
 
   // Helper para generar el arreglo de números de página en el HTML
@@ -108,38 +136,14 @@ export class BookCatalogPage implements OnInit {
   }
 
   toggleFavorite(book: IBook) {
-    if ( this.isFavorite(book) ) {
+    if (this.isFavorite(book)) {
       this.removeFavorite(book);
     } else {
       this.addToFavorites(book);
     }
   }
 
-  removeFavorite(book: IBook) {
-    this.favoriteExternalIds = this.favoriteExternalIds.filter((id) => id !== book.externalId);
-
-    const favoriteToRemove = this.favorites.find(fav => fav.externalId === book.externalId);
-
-    if (favoriteToRemove) {
-      const favoriteId = favoriteToRemove.id;
-
-      this.favoriteBookService.removeFavorite( favoriteId ).subscribe({
-        next: ( success ) => {
-          if( success ) {
-            this.favoriteExternalIds = this.favoriteExternalIds.filter(id => id !== book.externalId);
-            this.favorites = this.favorites.filter(fav => fav.id !== favoriteToRemove.id);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'info',
-              title: 'Quitado de favoritos',
-              showConfirmButton: false,
-              timer: 2000,
-            });
-          } else {
-            Swal.fire('Error', 'No se pudo eliminar el favorito del servidor', 'error');
-          }
-        }
-      });
-    }
+  toFavorite() {
+    this.router.navigate(['/book/favorite-book']);
   }
 }

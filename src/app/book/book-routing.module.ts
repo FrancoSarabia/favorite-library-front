@@ -10,7 +10,7 @@ const routes: Routes = [
       component: BookCatalogPage
     },
     {
-      path: 'favorites',
+      path: 'favorite-book',
       component: BookFavoritesPage
     },
     {
