@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-center w-100 m-0 min-vh-100 pt-5">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <p-progressSpinner strokeWidth="4" class="spinner-center" />
+  </div>
+
+  <div class="card shadow-sm border-0" style="background-color: #f1f7fe;">
+
+    <div class="card-header bg-transparent border-0 pt-4 px-4">
+      <h3 class="mb-0 fw-bold" style="color: #3e4684;">Registro de usuario</h3>
+    </div>
+
+    <div class="card-body p-4">
+      <form [formGroup]="registerForm" (ngSubmit)="onSave()" autocomplete="off">
+
+        <div class="row g-4 mb-4">
+          <div class="col-12 col-lg-6">
+            <label for="username" class="form-label fw-bold">Usuario*</label>
+            <input id="username" type="text" class="form-control form-control-lg" formControlName="username"
+              placeholder="Nombre de usuario" />
+            <div *ngIf="!isValidField('username')" class="text-danger small mt-1">
+              {{ getFieldError(registerForm, 'username') }}
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <label for="password" class="form-label fw-bold">Contraseña*</label>
+            <div class="input-group">
+              <input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password"
+                (input)="checkPasswordStrength()" />
+              <button class="btn btn-outline-secondary" type="button" (click)="showPassword = !showPassword">
+                <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+            </div>
+
+            <div class="mt-2">
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar" [class.bg-danger]="passwordStrength === 'weak'"
+                  [class.bg-warning]="passwordStrength === 'medium'" [class.bg-success]="passwordStrength === 'strong'"
+                  [style.width]="passwordStrengthPercent"></div>
+              </div>
+            </div>
+            <div *ngIf="!isValidField('password')" class="text-danger small mt-1">
+              {{ getFieldError(registerForm, 'password') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-md-6">
+            <label for="firstName" class="form-label fw-bold">Nombres*</label>
+            <input type="text" class="form-control" formControlName="firstName" placeholder="Ej: Juan" />
+            <div *ngIf="!isValidField('firstName')" class="text-danger small mt-1">
+              {{ getFieldError(registerForm, 'firstName') }}
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="lastName" class="form-label fw-bold">Apellidos*</label>
+            <input type="text" class="form-control" formControlName="lastName" placeholder="Ej: Pérez" />
+            <div *ngIf="!isValidField('lastName')" class="text-danger small mt-1">
+              {{ getFieldError(registerForm, 'lastName') }}
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4 text-muted">
+
+        <div class="row g-2">
+          <div class="col-12 col-sm-4">
+            <button type="button" class="btn btn-outline-danger w-100 py-2" (click)="cancel()">
+              <i class="bi bi-x-circle me-2"></i>Cancelar
+            </button>
+          </div>
+          <div class="col-12 col-sm-4">
+            <button type="button" class="btn btn-outline-secondary w-100 py-2" (click)="clear()">
+              <i class="bi bi-eraser me-2"></i>Limpiar
+            </button>
+          </div>
+          <div class="col-12 col-sm-4">
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold"
+              style="background-color: #3e4684; color: white;" [disabled]="registerForm.invalid">
+              <i class="bi bi-save me-2"></i>Registrar
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<p-confirmDialog></p-confirmDialog>
