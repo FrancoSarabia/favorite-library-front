@@ -39,7 +39,6 @@ export class BookCatalogPage implements OnInit {
       author: ['', [Validators.required, Validators.minLength(3)]],
     });
 
-    // Cargar favoritos actuales para marcar los corazones desde el inicio
     const userData = localStorage.getItem(STORAGE_KEY);
     if (userData) {
       const userId = JSON.parse(userData).id;
