@@ -1,0 +1,70 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="spinner-overlay" *ngIf="loading">
+                <p-progress-spinner strokeWidth="4" class="spinner-center" />
+            </div>
+            <div class="card" style="background-color: #f1f7fe; padding: 2rem;">
+                <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="login()" class="d-flex flex-column align-items-center">
+                    <div class="text-center mb-6">
+                        <p-image 
+                            src="images/Banned-User.png"
+                            alt="Image" 
+                            width="200">
+                        </p-image>
+                    </div>
+
+                    <div class="input-group mb-1 mt-4" style="max-width: 300px">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Usuario" 
+                            formControlName="username"
+                        >
+                    </div>
+
+                    <small *ngIf="isInvalidField('username')" class="text-danger mt-1">
+                        {{ getFieldError('username') }}
+                    </small>
+    
+                    <div class="input-group mt-4 mb-3" style="max-width: 300px;">
+                        <span class="input-group-text"><i class="bi bi-key"></i></span>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            placeholder="Contraseña" 
+                            formControlName="password"
+                        >
+                    </div>
+                    <small *ngIf="isInvalidField('password')" class="text-danger mt-1">
+                        {{ getFieldError('password') }}
+                    </small>
+                    <button 
+                        class="btn mt-3 d-flex align-items-center justify-content-center"
+                        [disabled]="loading"
+                        (click)="login()"
+                        style="background-color: #3e4684; color: white; padding: 0.5rem 1.5rem; border-radius: 0.25rem; max-width: 300px; width: 100%;"
+                    >
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        {{ loading ? 'Cargando...' : 'Iniciar Sesión' }}
+                    </button>
+
+                    <button 
+                        class="btn mt-3 d-flex align-items-center justify-content-center"
+                        style="background-color: #28a745; color: white; padding: 0.5rem 1.5rem; border-radius: 0.25rem; max-width: 300px; width: 100%;"
+                        [disabled]="loading"
+                        (click)="goToRegister()"
+                    >
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <i class="bi bi-person-plus me-2"></i>
+
+                        {{ loading ? 'Cargando...' : 'Registrarse' }}
+                    </button>
+    
+                </form>
+            </div> <!--card-->
+        </div>
+    </div>
+</div>
