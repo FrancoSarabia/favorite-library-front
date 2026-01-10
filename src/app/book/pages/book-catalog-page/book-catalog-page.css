@@ -1,0 +1,21 @@
+.page-link {
+  cursor: pointer;
+  color: #3e4684;
+}
+
+.page-item.active .page-link {
+  background-color: #3e4684;
+  border-color: #3e4684;
+}
+
+.page-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(62, 70, 132, 0.25);
+}
+
+.btn-danger:hover .bi-heart-fill::before {
+  content: "\f62a";
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
