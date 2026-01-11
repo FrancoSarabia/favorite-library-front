@@ -1,4 +1,4 @@
-.page-link {
+/* .page-link {
   cursor: pointer;
   color: #3e4684;
 }
@@ -10,7 +10,7 @@
 
 .page-link:focus {
   box-shadow: 0 0 0 0.25rem rgba(62, 70, 132, 0.25);
-}
+} */
 
 .btn-danger:hover .bi-heart-fill::before {
   content: "\f62a";
@@ -18,4 +18,24 @@
 
 .transition-all {
   transition: all 0.3s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3e4684 !important;
+    border-color: #3e4684 !important;
+    color: white !important;
+}
+
+
+.pagination .page-link {
+    color: #3e4684;
+}
+
+.page-link {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa;
 }
