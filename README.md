@@ -4,9 +4,10 @@ Este proyecto fue generado usando [Angular CLI](https://github.com/angular/angul
 
 ## Development server
 
-Para correr la aplicación, ejecuta
+Para arrancar la aplicación, ejecuta los siguientes comandos: 
 
 ```bash
+npm install
 ng serve -o
 ```
 
