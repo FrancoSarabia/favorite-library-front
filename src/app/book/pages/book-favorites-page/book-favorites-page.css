@@ -1,5 +1,32 @@
 .custom-icon-size {
-    font-size: 2rem; /* Ajusta a tu gusto */
-    vertical-align: middle; /* Ayuda a alinear si está junto a texto */
+    font-size: 2.5rem !important;
+    vertical-align: middle;
     cursor: pointer;
+    transition: transform 0.2s;
+    color: #3e4684;
+}
+
+.custom-icon-size:hover {
+    transform: scale(1.1); /* Efecto visual al pasar el mouse */
+    color: #000;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3e4684 !important;
+    border-color: #3e4684 !important;
+    color: white !important;
+}
+
+
+.pagination .page-link {
+    color: #3e4684;
+}
+
+.page-link {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa;
 }

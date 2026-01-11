@@ -1,9 +1,11 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { catchError, map, Observable, of, throwError } from "rxjs";
 
 import { IBook } from "../interfaces/book.interface";
-import { catchError, map, Observable, of } from "rxjs";
-import { IFavoriteBookResponse } from "../interfaces/favorite-book-response.interface";
+import { IFavoriteBook } from "../interfaces/favorite-book.interface";
+import { IPaginatedFavoriteBooks } from "../interfaces/paginated-favorite-books.interface";
+import { environment } from "../../environment/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -11,27 +13,36 @@ import { IFavoriteBookResponse } from "../interfaces/favorite-book-response.inte
 export class FavoriteBookService {
 
     private httpClient = inject(HttpClient);
-    private apiUrl = 'http://localhost:5089/api';
 
     constructor() { }
 
-    getFavoritesByUser( userId: string ): Observable<IFavoriteBookResponse[]> {
-       return this.httpClient.get<IFavoriteBookResponse[]>(`${this.apiUrl}/favorites/user/${ userId }`);
+    getFavoritesByUser( userId: string ): Observable<IFavoriteBook[]> {
+       return this.httpClient.get<IFavoriteBook[]>(`${environment.apiUrl}/favorites/user/${ userId }`);
     }
 
-    addFavorite(book: IBook, userId: string): Observable<IFavoriteBookResponse> {
+    getFavoritesByUserPaginated( userId: string, page: number, pageSize: number ): Observable<IPaginatedFavoriteBooks> {
+       return this.httpClient.get<IPaginatedFavoriteBooks>(
+            `${environment.apiUrl}/favorites/user-paginated/${ userId }?page=${page}&pageSize=${pageSize}`
+        );
+    }
+
+    addFavorite(book: IBook, userId: string): Observable<IFavoriteBook> {
+
+        if (!book.authors || book.authors.length === 0) {
+            return throwError(() => new Error('El libro no tiene autores'));
+        }
         const favoriteData = {
             ...book,
             userId: userId
         };
-        return this.httpClient.post<IFavoriteBookResponse>(`${this.apiUrl}/favorites`, favoriteData);
+        return this.httpClient.post<IFavoriteBook>(`${environment.apiUrl}/favorites`, favoriteData);
     }
 
     removeFavorite( favoriteId: string ): Observable<boolean> {
-        return this.httpClient.delete( `${this.apiUrl}/favorites/${ favoriteId }` ).pipe(
+        return this.httpClient.delete( `${environment.apiUrl}/favorites/${ favoriteId }` ).pipe(
             map( () => true ),
             catchError((error) => {
-                return of(false);
+                return throwError(() => new Error(error));
             })
         );
     }
