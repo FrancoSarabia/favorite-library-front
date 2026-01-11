@@ -5,10 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { PrimengModule } from '../primeng/primeng-module';
+import { ImagePipe } from './pipe/image.pipe';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ImagePipe
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -21,6 +24,7 @@ import { PrimengModule } from '../primeng/primeng-module';
     ReactiveFormsModule,
     HttpClientModule,
     PrimengModule,
+    ImagePipe
   ]
 })
 export class SharedModule { }
