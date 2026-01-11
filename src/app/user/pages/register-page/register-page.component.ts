@@ -60,7 +60,10 @@ export class RegisterPageComponent implements OnInit {
       if (result.isConfirmed) {
         this.loading = true;
 
-        this.userService.userRegister(formValues).pipe(finalize(() => (this.loading = false))).subscribe({
+        this.userService
+          .userRegister(formValues)
+          .pipe(finalize(() => (this.loading = false)))
+          .subscribe({
             next: (res) => {
               Swal.fire('Éxito', `Usuario registrado correctamente`, 'success');
               this.clear();
@@ -78,12 +81,15 @@ export class RegisterPageComponent implements OnInit {
 
   public clear() {
     this.registerForm.reset();
+
     Object.keys(this.registerForm.controls).forEach((key) => {
       const control = this.registerForm.get(key);
-      control?.setErrors(null);
+
       control?.markAsPristine();
       control?.markAsUntouched();
     });
+
+    this.registerForm.updateValueAndValidity();
   }
 
   public cancel() {
