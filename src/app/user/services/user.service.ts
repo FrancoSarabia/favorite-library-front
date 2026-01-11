@@ -5,13 +5,13 @@ import { Observable, tap } from 'rxjs';
 import { ICreateUserResponse } from '../interfaces/create-user-response.interface';
 import { CreateUser } from '../interfaces/create-user.interface';
 import { STORAGE_KEY } from '../../shared/consts/storage.const';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private httpClient = inject(HttpClient);
-  private apiUrl = 'http://localhost:5089/api';
 
   constructor() {}
 
@@ -19,7 +19,7 @@ export class UserService {
     formValues: CreateUser
   ): Observable<ICreateUserResponse> {
     return this.httpClient.post<ICreateUserResponse>(
-      `${this.apiUrl}/users`,
+      `${environment.apiUrl}/users`,
       {
         FirstName: formValues.firstName,
         LastName: formValues.lastName,
@@ -33,7 +33,7 @@ export class UserService {
   }
 
   getUserById(id: string) {
-    return this.httpClient.get(`${ this.apiUrl }/worker/${ id }`);
+    return this.httpClient.get(`${ environment.apiUrl }/worker/${ id }`);
   }
 
   private saveUserToStorage(user: ICreateUserResponse): void {
