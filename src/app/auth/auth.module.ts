@@ -6,6 +6,7 @@ import { PrimengModule } from '../primeng/primeng-module';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthRoutingModule } from './auth-routing-module';
+import { SharedModule } from '../shared/shared-module';
 
 
 
@@ -17,7 +18,8 @@ import { AuthRoutingModule } from './auth-routing-module';
     PrimengModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ]
 })
 export class AuthModule { }

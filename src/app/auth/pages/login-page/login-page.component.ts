@@ -16,6 +16,7 @@ export class LoginPageComponent {
 
   private fb          = inject( FormBuilder );
   private router      = inject(Router)
+  private authService = inject(AuthService);
 
   public loginForm: FormGroup = this.fb.group({
     username: [ '', [ Validators.required ] ],
@@ -25,19 +26,20 @@ export class LoginPageComponent {
   loading: boolean = false;
 
   login(){
-    // const { username, password } = this.loginForm.value;
-    // this.loading = true;
 
-    // this.authService.login( username, password )
-    //   .pipe(finalize(() => this.loading = false))
-    //   .subscribe( {
-    //     next: () => {
-    //       this.router.navigate(['/dashboard']);
-    //     },
-    //     error: ( errorMessage ) => {
-    //       Swal.fire( 'Error', 'Credenciales Invalidas', 'error' )
-    //     }
-    //   } );
+    const { username, password } = this.loginForm.value;
+    this.loading = true;
+
+    this.authService.login( username, password )
+      .pipe(finalize(() => this.loading = false))
+      .subscribe( {
+        next: () => {
+          this.router.navigate(['/book/book-catalog']);
+      },
+      error: ( errorMessage: any ) => {
+          Swal.fire( 'Error', 'Credenciales Invalidas', 'error' )
+        }
+      } );
   }
 
   goToRegister() {

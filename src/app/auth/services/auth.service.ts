@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { LoginResponse } from '../interfaces/login-response.interface';
 import { environment } from '../../environment/environment';
+import { STORAGE_KEY } from '../../shared/consts/storage.const';
 
 @Injectable({
   providedIn: 'root',
@@ -13,31 +14,21 @@ import { environment } from '../../environment/environment';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject( Router );
-  private accessTokenSubject = new BehaviorSubject<string | null>(null);
-  accessToken$ = this.accessTokenSubject.asObservable();
 
   constructor() {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    const url = `${environment.apiUrl}/auth/login`;
+    const url = `${environment.apiUrl}/users/login`;
     const body = { username, password };
 
-    // Usando coockie para guardar el refreshToken
     return this.http.post<LoginResponse>(url, body).pipe(
+      tap( ( user ) => {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+      } ),
       map((resp) => {
         return resp;
       }),
-      catchError((err) => throwError(() => err.error.message))
-    );
-  }
-
-  resetPassword(token: string, password: string) {
-    const url = `${environment.apiUrl}/auth/reset-password`;
-    const body = { token, password };
-    return this.http.post(url, body).pipe(
-      tap((resp) =>
-        console.log('respuesta del observable: ', console.log(resp))
-      ),
       catchError((err) => throwError(() => err.error.message))
     );
   }
