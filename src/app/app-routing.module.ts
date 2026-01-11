@@ -6,7 +6,11 @@ import { MainLayoutComponent } from './layout/main/main-layout.component';
 
 
 const routes: Routes = [
-  // AUTH
+  {
+    path: '',
+    redirectTo: 'auth/login',
+    pathMatch: 'full',
+  },
   {
     path: 'auth',
     component: AuthLayoutComponent,
@@ -26,9 +30,8 @@ const routes: Routes = [
         loadChildren: () => import('./book/book.module').then( m => m.BookModule )
       },
       {
-        path: '',
-        redirectTo: 'user/register',
-        pathMatch: 'full',
+        path: '**',
+        redirectTo: 'book/book-catalog'
       }
     ]
   },
