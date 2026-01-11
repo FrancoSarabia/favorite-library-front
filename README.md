@@ -17,4 +17,9 @@ Si tu backend corre en un puerto distinto al 5089, modifica la URL en:
 ```
 src/environments/environment.ts
 ```
+## Credenciales de prueba
 
+```bash
+user: testuser
+password: admin123
+```
